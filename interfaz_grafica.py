@@ -5,12 +5,12 @@ import matplotlib.patches as patches
 from matplotlib.offsetbox import AnnotationBbox, OffsetImage
 
 
-def construir_horario_docente(docente, list):
+def construir_horario_docente(docente, list_disponibilidad, list_materias):
     # Creación de tabla sin datos ni restriciones de horario
     datos = [[f'Horario Docente {docente}', 'Materia'],
-            ['09:00 - 11:00', '-'],
-            ['11:00 - 13:00', '-'],
-            ['13:00 - 15:00', '-']]
+            ['09:00 - 11:00', list_materias[0] if len(list_materias) > 0 and list_disponibilidad[0] else '-'],
+            ['11:00 - 13:00', list_materias[1] if len(list_materias) > 1 and list_disponibilidad[1] else '-'],
+            ['13:00 - 15:00', list_materias[2] if len(list_materias) > 2 and list_disponibilidad[2] else '-']]
 
     # Crear la figura y los ejes
     fig, ax = plt.subplots()
@@ -30,14 +30,13 @@ def construir_horario_docente(docente, list):
 
     # Colorear los horarios no disponibles
     c = 1
-    for i in list:
+    for i in list_disponibilidad:
         if i == False:
             for j in range(len(datos[0])):
                 tabla.get_celld()[(c, j)].set_facecolor('red') 
-        c += 1
-            
-    # for j in range(len(datos[0])):
-    #     tabla.get_celld()[(3, j)].set_facecolor('red') 
+        c += 1         
+    # Agregar materias al horario
+
     
     # Agregar texto fuera de la tabla
     plt.text(0.5, 1.1, f'Horario para el docente {docente}',
@@ -49,4 +48,7 @@ def construir_horario_docente(docente, list):
     # Guardar la figura como archivo PNG en la carpeta del proyecto
     fig.savefig('horario_docente_' + str(docente) + '.png')
 
-construir_horario_docente('Andres', [True, False, True])
+# Para el caso de la proyección de las materias, se encuentra restrinjido la modificación en los casos que la disponibilidad sea false
+# Dejar '' en espacios donde la disponibilidad sea falsta, como lo muestra el ejemplo
+
+construir_horario_docente('Manuel_Cruz', [True, False, True], ['Matematicas', '', 'Programación' ])
