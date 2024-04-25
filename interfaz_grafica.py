@@ -7,9 +7,9 @@ from matplotlib.offsetbox import AnnotationBbox, OffsetImage
 def construir_horario_docente(docente, list_disponibilidad, list_materias):
     # Creación de tabla sin datos ni restriciones de horario
     datos = [[f'Horario Docente {docente}', 'Materia'],
-            ['09:00 - 11:00', list_materias[0] if len(list_materias) > 0 and list_disponibilidad[0] else '-'],
-            ['11:00 - 13:00', list_materias[1] if len(list_materias) > 1 and list_disponibilidad[1] else '-'],
-            ['13:00 - 15:00', list_materias[2] if len(list_materias) > 2 and list_disponibilidad[2] else '-']]
+            ['09:00 - 11:00', list_materias[0] if list_disponibilidad[0] else '-'],
+            ['11:00 - 13:00', list_materias[1] if list_disponibilidad[1] else '-'],
+            ['13:00 - 15:00', list_materias[2] if list_disponibilidad[2] else '-']]
 
     # Crear la figura y los ejes
     fig, ax = plt.subplots()
