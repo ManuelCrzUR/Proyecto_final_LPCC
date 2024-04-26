@@ -93,5 +93,33 @@ def construir_horario_estudiante(estudiante, list_disponibilidad, list_materias)
     # Guardar la figura como archivo PNG en la carpeta del proyecto
     fig.savefig('horario_estudiante_' + str(estudiante) + '.png')
 
-construir_horario_docente('Manuel_Cruz', [True, False, True], ['Matematicas', '', 'Programación' ])
-construir_horario_estudiante('Mariana_Romero', [False, True, True], ['', 'Lógica 2', 'Programación'])
+def dicc_a_lista(diccionario_monitorias):
+    materias =[]
+    disponibilidad = []
+    
+    for materia, disponible in diccionario_monitorias.items():
+        materias.append(materia)
+        disponibilidad.append(disponible)
+        
+    return materias, disponibilidad
+
+def horario_docente_dicc(docente, dic):
+    materias_docente, disponibilidad_docente = dicc_a_lista(dic)
+    construir_horario_docente(docente, disponibilidad_docente, materias_docente)
+    
+
+        
+diccionario_horario = {
+    "": False,
+    "Programación": True,
+    "Algebra": True
+}
+
+
+
+# construir_horario_docente('Manuel_Cruz', [True, False, True], ['Matematicas', '', 'Programación' ])
+# construir_horario_estudiante('Mariana_Romero', [False, True, True], ['', 'Lógica 2', 'Programación'])
+
+# print(dicc_a_lista(diccionario_horario))
+
+horario_docente_dicc("Andres_Perez", diccionario_horario)
