@@ -52,6 +52,15 @@ class Horarios:
             disponibilidad.append(disponible)
 
         return materias, disponibilidad
+    
+    def visualizacion_corregida(horarios, materias, profesores, estudiantes):
+        
+        for h in horarios:
+            for m in materias:
+                for p in profesores:
+                    for e in estudiantes:
+                        if 
+                    
 
 
 # Ejemplo de uso
