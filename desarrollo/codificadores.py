@@ -183,7 +183,12 @@ class Horario:
         return Ytoria(lista)
     
 h = Horario()
-print(h.reglas[0])
-print(inorder_to_tree(h.reglas[0]))
-# A = inorder_to_tree(h.reglas[1])
-# print(A.ver(h.Q))  # Ver con los descriptores Q y P
+print('regla 1:\n')
+print(inorder_to_tree(h.reglas[0]), '\n')
+
+print('regla 2:\n')
+print(inorder_to_tree(h.reglas[1]), '\n')
+
+print('regla 3:\n')
+print(inorder_to_tree(h.reglas[2]), '\n')
+
