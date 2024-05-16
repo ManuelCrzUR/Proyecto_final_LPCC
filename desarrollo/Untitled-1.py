@@ -11,16 +11,16 @@ Nh = 3
 Nm = 3
 
 # Ejemplos estudiantes
-estudiantes = ['Moñas', 'Manuel', 'Sara']
+estudiantes = ['Monas', 'Manuel', 'Sara']
 # Ejemplos profesores
 profesores = ['Norma', 'Edgar', 'Edwin']
 # Ejemplos intervalos de horarios
 horarios = ['09:00 - 11:00', '11:00 - 13:00', '13:00 - 15:00']
 # Ejemplso posibles materias
-materias = ['Programación', 'Algebra', 'Calculo']
+materias = ['Programacion', 'Algebra', 'Calculo']
 
 # Creación de función escribir para la decodificación         
-def escribir_estudiante(self, literal):
+def escribir(self, literal):
     if '-' in literal:
         atomo = literal[1:]
         neg = ' no'
@@ -29,22 +29,13 @@ def escribir_estudiante(self, literal):
         neg = ''
     prof_o_est, i, h, m = self.unravel(atomo)
     if prof_o_est == 1:
-        return f'La materia {materias[m]}{neg} se ve en el horario {horarios[h]} del profesor {estudiantes[i]}.'
+        return f'La materia {materias[m]}{neg} se ve en el horario {horarios[h]} del profesor {profesores[i]}.'
     else:
-        return f'La materia {materias[m]}{neg} se ve en el horario {horarios[h]} del estudiante {profesores[i]}.'
+        return f'La materia {materias[m]}{neg} se ve en el horario {horarios[h]} del estudiante {estudiantes[i]}.'
 
-def escribir_docente(self, literal):
-    if '-' in literal:
-        atomo = literal[1:]
-        neg = ' no'
-    else:
-        atomo = literal
-        neg = ''
-    p, h, m = self.unravel(atomo)
-    return f'La materia {materias[m]}{neg} es dada en el horario {horarios[h]} del profesor {profesores[p]}.'
 
 class Horario:
-    def __init__(self, Es = ['Moñas', 'Manuel', 'Sara'], Pr = ['Norma', 'Edgar', 'Edwin'], M = ['Programación', 'Algebra', 'Calculo'], Ho = ['09:00 - 11:00', '11:00 - 13:00', '13:00 - 15:00']):
+    def __init__(self, Es = ['Monas', 'Manuel', 'Sara'], Pr = ['Norma', 'Edgar', 'Edwin'], M = ['Programacion', 'Algebra', 'Calculo'], Ho = ['09:00 - 11:00', '11:00 - 13:00', '13:00 - 15:00']):
         self.estudiantes = Es
         self.profesores = Pr
         self.materias = M
@@ -52,7 +43,7 @@ class Horario:
         self.PoE = 2
         self.PyE = max(len(self.profesores), len(self.estudiantes))
         self.H = Descriptor([self.PoE, self.PyE, len(Ho), len(M)])
-        self.H.escribir = MethodType(escribir_estudiante, self.H)
+        self.H.escribir = MethodType(escribir, self.H)
         r1 = self.regla1()
         r2 = self.regla2()
         r3 = self.regla3()
@@ -127,9 +118,15 @@ h = Horario()
 
 print('regla 1:\n')
 print(str(inorder_to_tree(h.reglas[0])).encode('utf-8'), '\n')
+A = inorder_to_tree(h.reglas[0])
+print(A.ver(h.H), '\n')
 
 print('regla 2:\n')
 print(str(inorder_to_tree(h.reglas[1])).encode('utf-8'), '\n')
+B = inorder_to_tree(h.reglas[1])
+print(B.ver(h.H), '\n')
 
 print('regla 3:\n')
 print(str(inorder_to_tree(h.reglas[2])).encode('utf-8'), '\n')
+C = inorder_to_tree(h.reglas[2])
+print(C.ver(h.H), '\n')
