@@ -1,7 +1,6 @@
 from Logica import *
 from types import MethodType
 
-
 # Forma descriptor estudiantes P(e, h, m)
 # Forma descriptor profesores Q(p, h, m)
 
@@ -20,7 +19,7 @@ horarios = ['09:00 - 11:00', '11:00 - 13:00', '13:00 - 15:00 ']
 # Ejemplso posibles materias
 materias = ['Programación', 'Algebra', 'Calculo']
 
-# Creació de función escribir para la decodificación         
+# Creación de función escribir para la decodificación         
 def escribir_estudiante(self, literal):
     if '-' in literal:
         atomo = literal[1:]
@@ -28,8 +27,11 @@ def escribir_estudiante(self, literal):
     else:
         atomo = literal
         neg = ''
-    e, h, m = self.unravel(atomo)
-    return f'La materia {materias[m]}{neg} se ve  en el horario {horarios[h]} del estudiante {estudiantes[e]}.'
+    prof_o_est, i, h, m = self.unravel(atomo)
+    if prof_o_est == 1:
+        return f'La materia {materias[m]}{neg} se ve en el horario {horarios[h]} del profesor {estudiantes[i]}.'
+    else:
+            return f'La materia {materia[m]}{neg} se ve en el horario {horarios[h]} del estudiante {profesores[i]}.'
 
 def escribir_docente(self, literal):
     if '-' in literal:
@@ -107,11 +109,11 @@ class Horario:
         self.estudiantes = Es
         self.profesores = Pr
         self.materias = M
-        self.horarios = H
-        self.P = Descriptor([Es, H, M])
-        self.P.escribir = MethodType(escribir_estudiante, self.P)
-        self.Q = Descriptor([Pr, M, H])
-        self.Q.escribir = MethodType(escribir_docente, self.Q)
+        self.horarios = Ho
+        self.PyE = 2
+        self.PyE = max(len(self.profesores), len(self.estudiantes))
+        self.H = Descriptor([self.PoE, self.PyE, len(Ho), len(M)])
+        self.H.escribir = MethodType(escribir_estudiante, self. H)
         r1 = self.regla1()
         r2 = self.regla2()
         r3 = self.regla3()
