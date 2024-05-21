@@ -114,11 +114,29 @@ class Horario:
     
 h = Horario()
 
-print('regla 1:\n')
-print(str(inorder_to_tree(h.reglas[0])).encode('utf-8'), '\n')
+# print('regla 1:\n')
+# # print(str(inorder_to_tree(h.reglas[0])).encode('utf-8'), '\n')
+# R1 = tseitin(h.reglas[0])
+# # print(str(R1).encode('utf-8'))
+# print(str(dpll(R1, {})).encode('utf-8'))
 
-print('regla 2:\n')
-print(str(inorder_to_tree(h.reglas[1])).encode('utf-8'), '\n')
+# print('regla 2:\n')
+# # print(str(inorder_to_tree(h.reglas[1])).encode('utf-8'), '\n')
+# R2 = tseitin(h.reglas[0])
+# # print(str(R2).encode('utf-8'))
+# print(str(dpll(R2, {})).encode('utf-8'))
 
-print('regla 3:\n')
-print(str(inorder_to_tree(h.reglas[2])).encode('utf-8'), '\n')
+# print('regla 3:\n')
+# # print(str(inorder_to_tree(h.reglas[2])).encode('utf-8'), '\n')
+# R3 = tseitin(h.reglas[0])
+# # print(str(R3).encode('utf-8'))
+# print(str(dpll(R3, {})).encode('utf-8'))
+
+
+reglas_itoria = Ytoria(h.reglas)
+Rtodas = tseitin(reglas_itoria)
+print(str(dpll(Rtodas, {})))
+
+dos_r = Ytoria([h.regla1, h.regla2])
+Rdos = tseitin(dos_r)
+print(str(dpll(Rdos, {})))
