@@ -1,5 +1,6 @@
 from Logica import *
 from types import MethodType
+import matplotlib.pyplot as plt
 
 # Ejemplos estudiantes
 estudiantes = ['Daniel', 'Manuel', 'Sara']
@@ -23,16 +24,6 @@ def escribir_estudiante(self, literal):
         return f'La materia {materias[m]}{neg} se ve en el horario {horarios[h]} del profesor {estudiantes[i]}.'
     else:
         return f'La materia {materias[m]}{neg} se ve en el horario {horarios[h]} del estudiante {profesores[i]}.'
-
-def escribir_docente(self, literal):
-    if '-' in literal:
-        atomo = literal[1:]
-        neg = ' no'
-    else:
-        atomo = literal
-        neg = ''
-    p, h, m = self.unravel(atomo)
-    return f'La materia {materias[m]}{neg} es dada en el horario {horarios[h]} del profesor {profesores[p]}.'
 
 class Horario:
     def __init__(self, Es = ['Daniel', 'Manuel', 'Sara'], Pr = ['Norma', 'Edgar', 'Edwin'], M = ['Programación', 'Álgebra', 'Cálculo'], Ho = ['09:00 - 11:00', '11:00 - 13:00', '13:00 - 15:00']):
@@ -112,31 +103,65 @@ class Horario:
             lista.append(Ytoria(lista_p))
         return Ytoria(lista)
     
+    def visualizar_est(self, I):
+        datos = [[f'Rol', 'Individio', 'Horario', 'Materia']]
+        for l in I:
+            if I[l]:
+                a, b, c, d = self.H.unravel(l)
+                # print(a, b, c, d, '\n')
+                if a == 1:
+                    datos.append(['Profesor', self.profesores[b], self.horarios[c], d])
+        
+                # Inicialización de tabla y estructura, que contiene la figura
+        fig, ax = plt.subplots()
+        ax.axis('off')
+        tabla = plt.table(cellText = datos,
+                          loc = 'center',
+                          cellLoc = 'center')
+        tabla.auto_set_font_size(False)
+        tabla.set_fontsize(12)
+        tabla.scale(1.2, 1.8)
+
+        # Agregar texto fuera de la tabla
+        plt.text(0.5, 1.1, f'Horario monitorías',
+                 horizontalalignment = 'center',
+                 verticalalignment = 'center',
+                 transform = ax.transAxes,
+                 weight = 'bold')
+
+        # Mostrar la figura
+        plt.show()            
+        print(datos, len(datos) - 1)
+        
+        
+    
 h = Horario()
 
-# print('regla 1:\n')
-# # print(str(inorder_to_tree(h.reglas[0])).encode('utf-8'), '\n')
-# R1 = tseitin(h.reglas[0])
-# # print(str(R1).encode('utf-8'))
-# print(str(dpll(R1, {})).encode('utf-8'))
+print('regla 1:\n')
+# print(str(inorder_to_tree(h.reglas[0])).encode('utf-8'), '\n')
+R1 = tseitin(h.reglas[0])
+# print(str(R1).encode('utf-8'))
+print(str(dpll(R1, {})).encode('utf-8'))
 
-# print('regla 2:\n')
-# # print(str(inorder_to_tree(h.reglas[1])).encode('utf-8'), '\n')
-# R2 = tseitin(h.reglas[0])
-# # print(str(R2).encode('utf-8'))
-# print(str(dpll(R2, {})).encode('utf-8'))
+s, dic = dpll(R1, {})
+h.visualizar_est(dic)
 
-# print('regla 3:\n')
-# # print(str(inorder_to_tree(h.reglas[2])).encode('utf-8'), '\n')
-# R3 = tseitin(h.reglas[0])
-# # print(str(R3).encode('utf-8'))
-# print(str(dpll(R3, {})).encode('utf-8'))
+print('regla 2:\n')
+# print(str(inorder_to_tree(h.reglas[1])).encode('utf-8'), '\n')
+R2 = tseitin(h.reglas[0])
+# print(str(R2).encode('utf-8'))
+print(str(dpll(R2, {})).encode('utf-8'))
 
+s, dic = dpll(R2, {})
+h.visualizar_est(dic)
 
-reglas_itoria = Ytoria(h.reglas)
-Rtodas = tseitin(reglas_itoria)
-print(str(dpll(Rtodas, {})))
+print('regla 3:\n')
+# print(str(inorder_to_tree(h.reglas[2])).encode('utf-8'), '\n')
+R3 = tseitin(h.reglas[0])
+# print(str(R3).encode('utf-8'))
+print(str(dpll(R3, {})).encode('utf-8'))
 
-dos_r = Ytoria([h.regla1, h.regla2])
-Rdos = tseitin(dos_r)
-print(str(dpll(Rdos, {})))
+s, dic = dpll(R3, {})
+h.visualizar_est(dic)
+
+print(h.H.rango[1] - h.H.rango[0])
