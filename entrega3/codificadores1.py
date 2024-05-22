@@ -73,7 +73,7 @@ class Horario:
                         otras_materias = [(k) for k in range(len(self.materias)) if k != m]
                         lista_m = []
                         for k in otras_materias:
-                            form1 = '-(' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, e, h, m]) + ')' 
+                            form1 = '-(' + self.H.ravel([0, e, h, k]) + 'Y' + self.H.ravel([1, e, h, k]) + ')' 
                             lista_m.append(form1)
                         form = '(' + '(' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, e, h, m]) +')' + '>' + Ytoria(lista_m) + ')'
                         lista_h.append(form)
