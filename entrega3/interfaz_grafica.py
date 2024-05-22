@@ -94,31 +94,26 @@ class Horario:
             lista.append(Ytoria(lista_p))
         return Ytoria(lista)
     
-    def visualizar_est(self, I):
-        datos = [[f'Rol', 'Individio', 'Horario', 'Materia']]
-        for l in I:
-            if I[l]:
-                a, b, c, d = self.H.unravel(l)
-                # print(a, b, c, d, '\n')
-                if a == 1:
-                    datos.append(['Profesor', self.profesores[b], self.horarios[c], d])
-        
-                # Inicialización de tabla y estructura, que contiene la figura
-        fig, ax = plt.subplots()
-        ax.axis('off')
-        tabla = plt.table(cellText = datos,
-                          loc = 'center',
-                          cellLoc = 'center')
-        tabla.auto_set_font_size(False)
-        tabla.set_fontsize(12)
-        tabla.scale(1.2, 1.8)
+def visualizar_est(self, I):
+    datos = [[f'Rol', 'Individio', 'Horario', 'Materia']]
+    for l in I:
+        if I[l]:
+            a, b, c, d = self.H.unravel(l)
+            if a == 1:
+                datos.append(['Profesor', self.profesores[b], self.horarios[c], d])
+    
+    # Calcular la altura de la figura en función del número de filas en la tabla
+    altura_figura = max(len(datos), 6) * 0.15  # Ajusta el 0.15 según tus necesidades
+    
+    # Inicialización de la figura con la altura calculada
+    fig, ax = plt.subplots(figsize=(8, altura_figura))
+    ax.axis('off')
+    
+    tabla = plt.table(cellText=datos, loc='center', cellLoc='center')
+    tabla.auto_set_font_size(False)
+    tabla.set_fontsize(12)
+    tabla.scale(1.2, 1.8)
 
-        # Agregar texto fuera de la tabla
-        plt.text(0.5, 1.1, f'Horario monitorías',
-                 horizontalalignment = 'center',
-                 verticalalignment = 'center',
-                 transform = ax.transAxes,
-                 weight = 'bold')
+    plt.text(0.5, 1.1, f'Horario monitorías', horizontalalignment='center', verticalalignment='center', transform=ax.transAxes, weight='bold')
 
-        # Mostrar la figura
-        plt.show()            
+    plt.show()
