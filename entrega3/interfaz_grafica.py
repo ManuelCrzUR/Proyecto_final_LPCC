@@ -44,7 +44,7 @@ class Horario:
                         otros_horarios = [k for k in range(len(self.horarios)) if k != h]
                         lista_p = []
                         for k in otros_horarios:
-                            form1 = '(' + self.H.ravel([1, e, h, m]) + 'Y' + self.H.ravel([0, e, h, m]) + ')'
+                            form1 = '(' + self.H.ravel([0, e, k, m]) + 'Y' + self.H.ravel([1, p, k, m]) + ')'
                             lista_p.append(form1)
                         lista_h.append(Otoria(lista_p))
                     form2 = '(' + self.H.ravel([0, e, h, m]) + '>' + Otoria(lista_h) + ')'
@@ -65,9 +65,9 @@ class Horario:
                         otras_materias = [(k) for k in range(len(self.materias)) if k != m]
                         lista_m = []
                         for k in otras_materias:
-                            form1 = '-(' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, e, h, m]) + ')' 
+                            form1 = '-(' + self.H.ravel([0, e, h, k]) + 'Y' + self.H.ravel([1, p, h, k]) + ')' 
                             lista_m.append(form1)
-                        form = '(' + '(' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, e, h, m]) +')' + '>' + Otoria(lista_m) + ')'
+                        form = '(' + '(' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, p, h, m]) +')' + '>' + Ytoria(lista_m) + ')'
                         lista_h.append(form)
                     lista_e.append(Ytoria(lista_h))
                 lista_p.append(Ytoria(lista_e))
@@ -86,9 +86,9 @@ class Horario:
                         otros_profesores = [(k) for k in range(len(self.profesores)) if k != p]
                         lista_m = []
                         for k in otros_profesores:
-                            form2 = '-(' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, e, h, m]) + ')'
+                            form2 = '-(' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, k, h, m]) + ')'
                             lista_m.append(form2)
-                        form1 = '((' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, e, h, m]) + ')' + '>' + Ytoria(lista_m) + ')'
+                        form1 = '((' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, p, h, m]) + ')' + '>' + Ytoria(lista_m) + ')'
                         lista_h.append(form1)
                     lista_e.append(Ytoria(lista_h))
                 lista_p.append(Ytoria(lista_e))
@@ -159,4 +159,3 @@ class Horario:
                     tabla[(i, j)].set_facecolor(colores[nombre])
 
         plt.show()
-
