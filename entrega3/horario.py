@@ -20,7 +20,7 @@ def escribir_estudiante(self, literal,):
         return f'La materia {materias[m]}{neg} se ve en el horario {horarios[h]} del estudiante {estudiantes[i]}.'
 
 class Horario:
-    def __init__(self, Es = ['Daniel', 'Manuel', 'Sara'], Pr = ['Norma', 'Edgar', 'Edwin'], M = ['Programación', 'Álgebra', 'Cálculo'], Ho = ['09:00 - 11:00', '11:00 - 13:00', '13:00 - 15:00']):
+    def __init__(self, Es = ['Daniel', 'Manuel'], Pr = ['Norma', 'Edgar'], M = ['Programación', 'Álgebra'], Ho = ['09:00 - 11:00', '11:00 - 13:00']):
         self.estudiantes = Es
         self.profesores = Pr
         self.materias = M
@@ -34,11 +34,9 @@ class Horario:
         r3 = self.regla3()
         r4 = self.regla4()
         r5 = self.regla5()
-        r6 = self.regla6()
-        r7 = self.regla7()
-        self.reglas = [r1, r2, r3, r4, r5, r6, r7]
+        self.reglas = [r1, r2, r3, r4, r5]
     
-    # Todo estudiante debe tener un profesor para la materia que demande   
+    # TODO ESTUDIANTE DEBE TENER UN PROFESOR PARA LA MATERIA QUE DEMANDE   
     def regla1(self):
         lista = []
         for e in range(self.PyE):
@@ -60,43 +58,49 @@ class Horario:
             lista.append(Ytoria(lista_e))
         return Ytoria(lista)
     
-    # DISTINTA MATERIA DE ESTUDIANTE EN EL MISMO HORARIO
+    # SOLO UNA MATERIA DE ESTUDIANTE Y PROFESOR EN EL MISMO HORARIO
     def regla2(self):
+        lista = []
+        for p in range(len(self.profesores)):
+            lista_p =[]
+            for e in range(len(self.estudiantes)):
+                lista_e = []
+                for h in range(len(self.horarios)):
+                    lista_h = []
+                    for m in range(len(self.materias)):
+                        otras_materias = [k for k in range(len(self.materias)) if k != m]
+                        lista_m = []
+                        for k in otras_materias:
+                            lista_m.append('(-' + self.H.ravel([0, e, h, k]) + 'Y-' + self.H.ravel([1, p, h, k]) + ')')
+                        form2 = '((' + self.H.ravel([0, e, h, m]) + 'Y' + self.H.ravel([1, p, h, m]) + ')' + '>' + Ytoria(lista_m) + ')'
+                        lista_h.append(form2)
+                    lista_e.append(Ytoria(lista_h))
+                lista_p.append(Ytoria(lista_e))
+            lista.append(Ytoria(lista_p))
+        return(Ytoria(lista))
+    
+    # SI UN ESTUDIANTE Y UN PROFESOR TIENE CLASE A DETERMINADO HORARIO, OTRO PROFESOR NO PUEDE TENER LA MISMA CLASE EN EL MISMO HORARIO                 
+    def regla3(self):
         lista = []
         for e in range(len(self.estudiantes)):
             lista_e = []
-            for h in range(len(self.horarios)):
-                lista_h = []
-                for m in range(len(self.materias)):
-                    otras_materias = [k for k in range(len(self.materias)) if k != m]
-                    lista_m = []
-                    for k in otras_materias:
-                        lista_m.append('-' +self.H.ravel([0, e, h, k]))
-                    form2 = '(' + self.H.ravel([0, e, h, m]) + '>' + Ytoria(lista_m) + ')'
-                    lista_h.append(form2)
-                lista_e.append(Ytoria(lista_h))
+            for p in range(len(self.profesores)):
+                lista_p = []
+                for h in range(len(self.horarios)):
+                    lista_h = []
+                    for m in range(len(self.materias)):
+                        otros_profesores = [k for k in range(len(self.profesores)) if k != p]
+                        lista_m = []
+                        for k in otros_profesores:
+                            lista_m.append('-' + self.H.ravel([1, k, h, m]))
+                        form = '((' + self.H.ravel([1, p, h, m]) + 'Y' + self.H.ravel([0, e, h, m]) + ')>' + Ytoria(lista_m) + ')'
+                        lista_h.append(form)
+                    lista_p.append(Ytoria(lista_h))
+                lista_e.append(Ytoria(lista_p))
             lista.append(Ytoria(lista_e))
         return(Ytoria(lista))
-    
-    # Un profesor por materia                    
-    def regla3(self):
-        lista = []
-        for p in range(len(self.profesores)):
-            lista_p = []
-            for h in range(len(self.horarios)):
-                lista_h = []
-                for m in range(len(self.materias)):
-                    otros_profesores = [k for k in range(len(self.profesores)) if k != p]
-                    lista_m = []
-                    for k in otros_profesores:
-                        lista_m.append('-' + self.H.ravel([1, k, h, m]))
-                    form = '(' + self.H.ravel([1, p, h, m]) + '>' + Ytoria(lista_m) + ')'
-                    lista_h.append(form)
-                lista_p.append(Ytoria(lista_h))
-            lista.append(Ytoria(lista_p))
-        return(Ytoria(lista))
                     
-    # Si ya vio la materia, no la vuelve a ver en el dia
+    # SI EL ESTUDIANTE YA VIO UN MATERIA, NO PUEDE VER LA MISMA MATERIA EL MISMO DIA
     def regla4(self):
         lista = []
         for e in range(len(self.estudiantes)):
@@ -114,44 +118,8 @@ class Horario:
             lista.append(Ytoria(lista_e))
         return(Ytoria(lista))
     
-    # DISTINTA MATERIA DE PROFESOR EN EL MISMO HORARIO
-    def regla5(self):
-        lista = []
-        for p in range(len(self.profesores)):
-            lista_p = []
-            for h in range(len(self.horarios)):
-                lista_h = []
-                for m in range(len(self.materias)):
-                    otras_materias = [k for k in range(len(self.materias)) if k != m]
-                    lista_m =[]
-                    for k in otras_materias:
-                        lista_m.append('-' + self.H.ravel([1, p, h, k]))
-                    form2 = '(' + self.H.ravel([1, p, h, m]) + '>' + Ytoria(lista_m) + ')'
-                    lista_h.append(form2)
-                lista_p.append(Ytoria(lista_h))
-            lista.append(Ytoria(lista_p))
-        return(Ytoria(lista))
-    
-    # no mas de un profesor dando materia en horario mismo
-    def regla6(self):
-        lista = []
-        for p in range(len(self.profesores)):
-            lista_p = []
-            for h in range(len(self.horarios)):
-                lista_h = []
-                for m in range(len(self.materias)):
-                    otros_profesores = [k for k in range(len(self.profesores)) if k != p]
-                    lista_m =[]
-                    for k in otros_profesores:
-                        lista_m.append('-' + self.H.ravel([1, k, h, m]))
-                    form = '(' + self.H.ravel([1, p, h, m]) + '>' + Ytoria(lista_m) + ')'
-                    lista_h.append(form)
-                lista_p.append(Ytoria(lista_h))
-            lista.append(Ytoria(lista_p))
-        return(Ytoria(lista))
-    
     # Si estudiante demandad, entonces profesor oferta
-    def regla7(self):
+    def regla5(self):
         lista = []
         for e in range(len(self.estudiantes)):
             lista_e = []
@@ -161,12 +129,12 @@ class Horario:
                     lista_h = []
                     for m in range(len(self.materias)):
                         lista_m =[]
-                        form = '(' + self.H.ravel([1, p, h, m]) + '=' + self.H.ravel([0, e, h, m]) +')'
+                        form = '(' + self.H.ravel([0, e, h, m]) + '>' + self.H.ravel([1, p, h, m]) +')'
                         lista_m.append(form)
                     lista_h.append(Ytoria(lista_m))
                 lista_p.append(Ytoria(lista_h))
             lista_e.append(Ytoria(lista_p))
-        return(Ytoria(lista_e))
+        return(Ytoria(lista_e))              
     
     def visualizar_est(self, I):
         datos = [[f'Rol', 'Persona', 'Horario', 'Materia']]
